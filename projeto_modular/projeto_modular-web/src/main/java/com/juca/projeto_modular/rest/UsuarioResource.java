@@ -116,7 +116,7 @@ public class UsuarioResource {
     public Response removeUsuario(@PathParam("id") Long idUsuario) {
         Response.ResponseBuilder builder = null;
         try {
-            registration.remove(lookupUsuarioById(idUsuario));
+            registration.remover(lookupUsuarioById(idUsuario));
             builder = Response.ok();
         } catch (Exception e) {
             Map<String, String> responseObj = new HashMap<>();
@@ -133,7 +133,7 @@ public class UsuarioResource {
             // Validates usuario using bean validation
             validateUsuario(usuario);
 
-            registration.register(usuario);
+            registration.registrar(usuario);
 
             // Create an "ok" response
             builder = Response.ok();

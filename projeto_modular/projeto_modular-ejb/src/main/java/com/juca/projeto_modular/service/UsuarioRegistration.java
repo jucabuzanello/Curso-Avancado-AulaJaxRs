@@ -1,41 +1,36 @@
 package com.juca.projeto_modular.service;
 
+import com.juca.projeto_modular.generic.GenericRegistration;
 import com.juca.projeto_modular.model.Usuario;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import java.util.logging.Logger;
 
-// The @Stateless annotation eliminates the need for manual transaction demarcation
 @Stateless
-public class UsuarioRegistration {
+public class UsuarioRegistration extends GenericRegistration<Usuario>{
 
     @Inject
     private Logger log;
 
     @Inject
-    private EntityManager em;
-
-    @Inject
     private Event<Usuario> usuarioEventSrc;
 
-    public void register(Usuario usuario) throws Exception {
+    public void registrar(Usuario usuario) throws Exception {
         if (usuario.getId() == null) {
             log.info("Inserindo " + usuario.getNome());
-            em.persist(usuario);
+            inserir(usuario);
         } else {
             log.info("Atualizando " + usuario.getNome());
-            em.merge(usuario);
+            atualizar(usuario);
         }
         usuarioEventSrc.fire(usuario);
     }
 
-  public void remove(Usuario usuario) throws Exception {
+  public void remover(Usuario usuario) throws Exception {
         log.info("Removendo " + usuario.getNome());
-        Object registro = em.merge(usuario);
-        em.remove(registro);
+        remover(usuario);
         usuarioEventSrc.fire(usuario);
     }    
 }
