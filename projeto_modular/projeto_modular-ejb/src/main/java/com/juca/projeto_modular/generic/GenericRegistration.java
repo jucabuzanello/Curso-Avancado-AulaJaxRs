@@ -22,6 +22,6 @@ public class GenericRegistration<T> {
     
     public void remover(T entidade) throws Exception {
         Object registro = em.merge(entidade);
-        em.remove(registro);
+        em.remove(registro)  ;
     }    
 }
